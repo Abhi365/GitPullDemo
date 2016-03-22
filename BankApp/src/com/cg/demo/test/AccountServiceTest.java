@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.cg.demo.beans.Account;
 import com.cg.demo.beans.Customer;
+import com.cg.demo.exceptions.InvalidAccountException;
 import com.cg.demo.exceptions.InvalidInitialAmountException;
 import com.cg.demo.repo.AccountRepoInMemoryImpl;
 import com.cg.demo.service.AccountService;
@@ -78,9 +79,32 @@ public class AccountServiceTest {
 	
 /*************************************************
  *  Test cases for showBalance	
+ * @throws InvalidAccountException 
  */
 	// Account number should be valid
 	// It should return balance for valid accounts
+	
+	@Test(expected=com.cg.demo.exceptions.InvalidAccountException.class)
+	public void test_valid_account_number() throws InvalidAccountException{
+		service.showBalance(5);
+	}
+	
+	@Test
+	public void test_showbalance(){
+		Customer c = new Customer("Ankur");
+		try {
+			Account a= service.createAccount(c, 1000);
+			double balance=service.showBalance(a.getNumber());
+			assertEquals(1000.00+"", a.getBalance()+"");
+		} catch (InvalidInitialAmountException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidAccountException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 /**********************************************************
  * 

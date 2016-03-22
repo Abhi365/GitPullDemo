@@ -43,7 +43,11 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public double showBalance(int number) throws InvalidAccountException {
 		// TODO Auto-generated method stub
-		return 0;
+		Account a=repo.findByNumber(number);
+		if(a==null){
+			throw new InvalidAccountException();
+		}
+		return a.getBalance();
 	}
 
 	@Override
